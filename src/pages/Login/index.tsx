@@ -1,5 +1,16 @@
-import React from 'react'
-import { Text, Image, StyleSheet, Dimensions, ImageBackground, StatusBar } from 'react-native'
+import jwtDecode from 'jwt-decode'
+import React, { useEffect, useState } from 'react'
+import {
+	Text,
+	Image,
+	StyleSheet,
+	Dimensions,
+	ImageBackground,
+	StatusBar,
+	Button,
+} from 'react-native'
+import { Credentials } from 'react-native-auth0'
+import { auth0 } from '../../config/auth0'
 
 const styles = StyleSheet.create({
 	container: {
@@ -30,14 +41,46 @@ const styles = StyleSheet.create({
 	},
 })
 
-const Main = () => {
+const Login = () => {
+	const [cred, setCred] = useState<Credentials>()
+
+	// useEffect(() => {
+	// 	;(async () => {
+	// 		cred && (await auth0.users(cred.idToken).getUser())
+	// 	})()
+	// }, [cred])
 
 	const handleSubmit = async () => {
-		await auth.webAuth
-			.authorize({ scope: 'openid profile email' })
-			.then(credentials => dispatch(AuthCreators.login(credentials)))
+		await auth0.webAuth
+			.authorize({ scope: 'openid profile email ', ui_locales: 'pt-BR' })
+			.then(cr => setCred(cr))
 			.catch(error => console.log(error))
 	}
+
+	const handleLogout = () => {
+		auth0.webAuth.clearSession({})
+	}
+
+	if (cred)
+		return (
+			<ImageBackground
+				source={{
+					uri: 'https://s3-sa-east-1.amazonaws.com/rocketseat-cdn/background.png',
+				}}
+				style={styles.container}
+				resizeMode='cover'>
+				<StatusBar barStyle='light-content' backgroundColor='#7159c1' />
+				<Image
+					source={{
+						uri: 'https://s3-sa-east-1.amazonaws.com/rocketseat-cdn/rocketseat_logo.png',
+					}}
+					style={styles.logo}
+					resizeMode='contain'
+				/>
+				<Text style={styles.welcome}>LOGADO {JSON.stringify(jwtDecode(cred.idToken))}</Text>
+				<Button onPress={handleLogout} title='Sair' />
+			</ImageBackground>
+		)
 
 	return (
 		<ImageBackground
@@ -54,10 +97,10 @@ const Main = () => {
 				style={styles.logo}
 				resizeMode='contain'
 			/>
-			<Text style={styles.welcome}>Login!</Text>
-			<Text style={styles.instructions}>Essa é a tela de login da sua aplicação =)</Text>
+			<Text style={styles.welcome}>Login</Text>
+			<Button onPress={handleSubmit} title='Entrar' />
 		</ImageBackground>
 	)
 }
 
-export default Main
+export default Login
