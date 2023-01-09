@@ -14,9 +14,10 @@
 		"module": "esnext",
 		"moduleResolution": "node",
 		"resolveJsonModule": true,
-		"isolatedModules": true,
+		"isolatedModules": false,
 		"noEmit": true,
-		"jsx": "react-jsx"
+		"jsx": "react-jsx",
+		"types": ["styled-components-react-native"],
 	},
-	"include": ["src", "jsconfig.json"]
+	"include": ["src", "jsconfig.json", "imgConfig.ts", "**/*.tsx"]
 }

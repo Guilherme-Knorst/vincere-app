@@ -1,35 +1,30 @@
-import React from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import Main from './pages/Main'
-import Login from './pages/Login'
+import { Main } from './pages/Main'
+import { Login } from './pages/Login'
+import { useAppSelector } from './store/hooks'
+import { ScreenHeader } from './components/ScreenHeader'
 
 const Stack = createNativeStackNavigator()
 
 export default function Routes() {
+	const isLogged = useAppSelector(state => state.auth.isLogged)
+
 	return (
 		<NavigationContainer>
-			<Stack.Navigator initialRouteName='Login' screenOptions={{ headerShown: false }}>
-				<Stack.Screen
-					name='Login'
-					component={Login}
-					// options={{
-					// 	title: 'Login',
-					// 	headerStyle: { backgroundColor: '#7159c1' },
-					// 	headerTintColor: '#fff',
-					// 	headerTitleAlign: 'center',
-					// }}
-				/>
-				<Stack.Screen
-					name='Main'
-					component={Main}
-					options={{
-						title: 'Tela Principal',
-						headerStyle: { backgroundColor: '#7159c1' },
-						headerTintColor: '#fff',
-						headerTitleAlign: 'center',
-					}}
-				/>
+			<Stack.Navigator screenOptions={{ headerShown: false }}>
+				{!isLogged ? (
+					<Stack.Screen name='Login' component={Login} />
+				) : (
+					<Stack.Screen
+						name='Main'
+						component={Main}
+						// options={{
+						// 	header: () => <ScreenHeader />,
+						// 	headerShown: true,
+						// }}
+					/>
+				)}
 			</Stack.Navigator>
 		</NavigationContainer>
 	)
