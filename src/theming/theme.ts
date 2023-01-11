@@ -24,7 +24,7 @@ export const theme = {
 			light: '#886bff',
 			main: '#8930ff',
 			dark: '#6128ff',
-			contrast: 'rgba(0, 0, 0, 0.87)',
+			contrast: '#00fffb',
 		},
 		body: {
 			main: '#b2b2b2',

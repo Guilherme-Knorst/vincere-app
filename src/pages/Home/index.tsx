@@ -1,37 +1,66 @@
 import { useNavigation } from '@react-navigation/native'
 import { CardButton } from '../../components/CardButton'
 import { FlexContainer } from '../../components/Container'
-import { DefaultScreenContainerBackground } from '../../components/DefaultScreenContainer'
-import { GradientContainer } from '../../components/LinearGradient'
 import { Typography } from '../../components/Typography'
+import defaultBackground from '../../../back1.jpg'
 
 export const Home = () => {
 	const navigation = useNavigation()
 
 	return (
-		<GradientContainer>
-			<FlexContainer flexDirection='row' flexWrap='wrap'>
-				{/* <CardButton color='primary' size='large'>
-					<Typography color='secondary' fontSize={26}>
+		<FlexContainer source={defaultBackground} height='83%' flexJustifyContent='center'>
+			<FlexContainer
+				height='73%'
+				alignSelf='center'
+				flexDirection='row'
+				flexWrap='wrap'
+				flexAlignContent='space-between'
+				flexJustifyContent='space-around'>
+				<CardButton
+					flexDirection='column'
+					backgrondColor='transparent'
+					flexAlignItems='center'
+					height='35%'
+					width='40%'
+					borderRadius={20}>
+					<Typography gradient color='secondary' fontSize={16} bold uppercase>
 						Propósito
 					</Typography>
 				</CardButton>
-				<CardButton color='primary' size='large'>
-					<Typography color='primary' fontSize={26}>
+				<CardButton
+					flexDirection='column'
+					backgrondColor='transparent'
+					flexAlignItems='center'
+					height='35%'
+					width='40%'
+					borderRadius={20}>
+					<Typography gradient color='secondary' fontSize={16} bold uppercase>
 						Descanso
 					</Typography>
 				</CardButton>
-				<CardButton color='primary' size='large'>
-					<Typography color='primary' fontSize={26}>
+				<CardButton
+					flexDirection='column'
+					backgrondColor='transparent'
+					flexAlignItems='center'
+					height='35%'
+					width='40%'
+					borderRadius={20}>
+					<Typography gradient color='secondary' fontSize={16} bold uppercase>
 						Nutrição
 					</Typography>
 				</CardButton>
-				<CardButton color='primary' size='large'>
-					<Typography color='primary' fontSize={26}>
+				<CardButton
+					flexDirection='column'
+					backgrondColor='transparent'
+					flexAlignItems='center'
+					height='35%'
+					width='40%'
+					borderRadius={20}>
+					<Typography gradient color='secondary' fontSize={16} bold uppercase>
 						Treinamento
 					</Typography>
-				</CardButton> */}
+				</CardButton>
 			</FlexContainer>
-		</GradientContainer>
+		</FlexContainer>
 	)
 }

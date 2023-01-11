@@ -1,10 +1,12 @@
-import React, { ReactNode } from 'react'
+import MaskedView from '@react-native-masked-view/masked-view'
+import { LabelPosition } from '@react-navigation/bottom-tabs/lib/typescript/src/types'
+import { ReactNode } from 'react'
 import LinearGradient from 'react-native-linear-gradient'
 import styled, { css } from 'styled-components/native'
-import { heightDP, pixelToDP, widthDP } from '../../utils'
+import { pixelToDP, widthDP } from '../../utils'
 
 export interface TypographyProps {
-	children: ReactNode
+	children: ReactNode | string
 	align?: string
 	bold?: boolean
 	color: 'primary' | 'secondary' | 'tertiary'
@@ -12,65 +14,45 @@ export interface TypographyProps {
 	uppercase?: boolean
 	width?: string
 	gradient?: boolean
+	lineHeight?: number
 }
 
-// export interface GradientProps {
-// 	size: 'small' | 'medium' | 'large'
-// 	width?: string
-// }
+export interface GradientTypographyProps extends TypographyProps {
+	opacity: number
+}
 
-const Container = styled.Text.attrs({})<TypographyProps>`
+const Text = styled.Text.attrs({})<TypographyProps>`
 	color: ${({ color, theme }) => theme.palette[color].contrast};
 	font-size: ${({ fontSize, theme }) =>
 		fontSize ? pixelToDP(fontSize) : theme.typography.size.main};
 	text-align: ${({ align }) => (align ? align : 'left')};
 	font-weight: ${({ bold }) => (bold ? 'bold' : 'normal')};
 	text-transform: ${({ uppercase }) => (uppercase ? 'uppercase' : 'none')};
-	line-height: 30;
+	line-height: ${({ lineHeight }) => (lineHeight ? lineHeight : 22)};
 	padding-left: ${pixelToDP(10)};
 	padding-right: ${pixelToDP(10)};
 	${({ width }) =>
 		width &&
 		css`
-					width: ${width}};
-			  `};
-	/* width: ${({ width }) => (width ? width : widthDP('90%'))}; */
+			width: ${widthDP(width)};
+		`};
+`
+
+const GradientText = styled(Text).attrs({
+	elevation: 40,
+	shadowColor: 'yellow',
+})<GradientTypographyProps>`
+	opacity: ${({ opacity }) => opacity};
 `
 
 const Gradient = styled(LinearGradient).attrs({
-	colors: ['#00fffa', '#9800ff'],
+	// colors: ['#ffee00', '#ffee00', '#161616'],
+	colors: ['#00fffb', '#00fffb', '#00fffb', '#9800ff'],
 	start: { x: 0, y: 0 },
-	end: { x: 1, y: 1 },
+	end: { x: 1, y: 0 },
 	elevation: 40,
 	shadowColor: '#9800ff',
-})`
-	/* justify-content: center;
-	align-items: center;
-	border-radius: 6px;
-	${({ size }) =>
-		size === 'small' &&
-		css`
-			height: ${heightDP('3.97%')};
-			width: ${widthDP('15%')};
-		`};
-	${({ size }) =>
-		size === 'medium' &&
-		css`
-			height: ${heightDP('5.97%')};
-			width: ${widthDP('30%')};
-		`};
-	${({ size }) =>
-		size === 'large' &&
-		css`
-			height: ${heightDP('8%')};
-			width: ${widthDP('50%')};
-		`};
-	${({ width }) =>
-		width &&
-		css`
-			width: ${widthDP(width)};
-		`}; */
-`
+})``
 
 export function Typography({
 	align,
@@ -79,31 +61,50 @@ export function Typography({
 	color,
 	fontSize,
 	uppercase,
-	width,
 	gradient,
+	width,
+	lineHeight,
 }: TypographyProps) {
 	return (
 		<>
 			{gradient ? (
-				<Container
-					align={align}
-					bold={bold}
-					color={color}
-					fontSize={fontSize}
-					uppercase={uppercase}
-					width={width}>
-					{children}
-				</Container>
+				<MaskedView
+					maskElement={
+						<Text
+							align={align}
+							bold={bold}
+							color={color}
+							fontSize={fontSize}
+							uppercase={uppercase}
+							lineHeight={lineHeight}
+							width={width}>
+							{children}
+						</Text>
+					}>
+					<Gradient>
+						<GradientText
+							align={align}
+							bold={bold}
+							color={color}
+							fontSize={fontSize}
+							opacity={0}
+							lineHeight={lineHeight}
+							uppercase={uppercase}>
+							{children}
+						</GradientText>
+					</Gradient>
+				</MaskedView>
 			) : (
-				<Container
+				<Text
 					align={align}
 					bold={bold}
 					color={color}
 					fontSize={fontSize}
 					uppercase={uppercase}
-					width={width}>
+					width={width}
+					lineHeight={lineHeight}>
 					{children}
-				</Container>
+				</Text>
 			)}
 		</>
 	)

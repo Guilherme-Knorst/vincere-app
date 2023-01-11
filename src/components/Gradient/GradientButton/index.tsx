@@ -1,4 +1,4 @@
-import { pixelToDP, widthDP, heightDP } from '../../../utils'
+import { widthDP, heightDP } from '../../../utils'
 import styled, { css } from 'styled-components/native'
 import Touchable from '../../Touchable'
 import LinearGradient from 'react-native-linear-gradient'
