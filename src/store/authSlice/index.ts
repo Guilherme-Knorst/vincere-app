@@ -9,7 +9,7 @@ interface AuthState {
 
 const initialState: AuthState = {
 	credentials: null,
-	isLogged: false,
+	isLogged: true,
 	isRegistred: false,
 }
 

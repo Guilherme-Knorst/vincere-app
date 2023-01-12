@@ -9,10 +9,10 @@ export const TabBar = ({ state, descriptors, navigation }: BottomTabBarProps) =>
 			// gradient
 			backgrondColor='#212121'
 			flexDirection='row'
-			height='7%'
+			height='8%'
 			width='100%'
 			flexJustifyContent='space-around'
-			borderRadius={6}
+			borderRadius={20}
 			flexAlignItems='center'>
 			{state.routes.map((route, index) => {
 				const { options } = descriptors[route.key]
@@ -24,6 +24,8 @@ export const TabBar = ({ state, descriptors, navigation }: BottomTabBarProps) =>
 				// 		: route.name
 
 				const isFocused = state.index === index
+
+				console.log(isFocused)
 
 				const onPress = () => {
 					const event = navigation.emit({
@@ -55,7 +57,7 @@ export const TabBar = ({ state, descriptors, navigation }: BottomTabBarProps) =>
 						onPress={onPress}
 						onLongPress={onLongPress}>
 						{isFocused ? (
-							<Typography color='tertiary' bold uppercase>
+							<Typography gradient isFocused={isFocused} color='primary' bold uppercase>
 								{route.name}
 							</Typography>
 						) : (

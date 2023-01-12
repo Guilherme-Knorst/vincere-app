@@ -9,6 +9,7 @@ export interface TypographyProps {
 	children: ReactNode | string
 	align?: string
 	bold?: boolean
+	isFocused?: boolean
 	color: 'primary' | 'secondary' | 'tertiary'
 	fontSize?: number
 	uppercase?: boolean
@@ -22,7 +23,8 @@ export interface GradientTypographyProps extends TypographyProps {
 }
 
 const Text = styled.Text.attrs({})<TypographyProps>`
-	color: ${({ color, theme }) => theme.palette[color].contrast};
+	color: ${({ isFocused, color, theme }) =>
+		isFocused ? theme.palette[color].main : theme.palette[color].contrast};
 	font-size: ${({ fontSize, theme }) =>
 		fontSize ? pixelToDP(fontSize) : theme.typography.size.main};
 	text-align: ${({ align }) => (align ? align : 'left')};
@@ -46,8 +48,8 @@ const GradientText = styled(Text).attrs({
 `
 
 const Gradient = styled(LinearGradient).attrs({
-	// colors: ['#ffee00', '#ffee00', '#161616'],
-	colors: ['#00fffb', '#00fffb', '#00fffb', '#9800ff'],
+	colors: ['#E6BF84', '#E6BF84', '#f48958', '#f48958'],
+	// colors: ['#00fffb', '#00fffb', '#00fffb', '#9800ff'],
 	start: { x: 0, y: 0 },
 	end: { x: 1, y: 0 },
 	elevation: 40,
@@ -64,6 +66,7 @@ export function Typography({
 	gradient,
 	width,
 	lineHeight,
+	isFocused,
 }: TypographyProps) {
 	return (
 		<>
@@ -71,6 +74,7 @@ export function Typography({
 				<MaskedView
 					maskElement={
 						<Text
+							isFocused={isFocused}
 							align={align}
 							bold={bold}
 							color={color}
@@ -83,6 +87,7 @@ export function Typography({
 					}>
 					<Gradient>
 						<GradientText
+							isFocused={isFocused}
 							align={align}
 							bold={bold}
 							color={color}
@@ -96,6 +101,7 @@ export function Typography({
 				</MaskedView>
 			) : (
 				<Text
+					isFocused={isFocused}
 					align={align}
 					bold={bold}
 					color={color}

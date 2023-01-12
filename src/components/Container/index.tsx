@@ -27,9 +27,15 @@ export interface FlexContainerProps {
 	paddingBottom?: number
 	source?: ImageSourcePropType
 	imageStyle?: StyleProp<ImageStyle>
+	border?: boolean
 }
 
 const Container = styled.View.attrs({})<FlexContainerProps>`
+	${({ border }) =>
+		border &&
+		css`
+			border: 1px solid red;
+		`};
 	${({ backgrondColor }) =>
 		backgrondColor &&
 		css`
@@ -188,7 +194,9 @@ const ContainerImageBackground = styled.ImageBackground.attrs(({ source }) => ({
 `
 
 const Gradient = styled(LinearGradient).attrs({
-	colors: ['#00fffa', '#9800ff'],
+	// colors: ['#00fffa', '#9800ff'],
+	// colors: ['#E6BF84', '#E6BF84', '#f48958', '#f48958'],
+	colors: ['#E6BF84', '#E6BF84', '#f48958', '#f48958'],
 	start: { x: 0, y: 0 },
 	end: { x: 1, y: 1 },
 	elevation: 40,

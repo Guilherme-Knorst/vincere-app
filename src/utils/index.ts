@@ -7,6 +7,7 @@ export function widthDP(widthPercent: string) {
 }
 
 export function heightDP(heightPercent: string) {
+	// const screenHeight = Dimensions.get('window').height + 47
 	const screenHeight = Dimensions.get('window').height
 
 	return PixelRatio.roundToNearestPixel((screenHeight * parseFloat(heightPercent)) / 100)

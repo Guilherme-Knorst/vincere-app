@@ -6,28 +6,65 @@ import defaultBackground from '../../../back1.jpg'
 
 export const Home = () => {
 	const navigation = useNavigation()
-
+	//88.2 sem botao
 	return (
-		<FlexContainer source={defaultBackground} height='83%' flexJustifyContent='center'>
+		<FlexContainer backgrondColor='black' height='92.1%' flexJustifyContent='center'>
 			<FlexContainer
 				height='73%'
 				alignSelf='center'
-				flexDirection='row'
+				flexDirection='column'
 				flexWrap='wrap'
-				flexAlignContent='space-between'
-				flexJustifyContent='space-around'>
+				flexJustifyContent='space-around'
+				flexAlignItems='center'>
 				<CardButton
-					flexDirection='column'
-					backgrondColor='transparent'
+					flexDirection='row'
+					backgrondColor='#111111'
 					flexAlignItems='center'
-					height='35%'
-					width='40%'
+					flexJustifyContent='space-between'
+					// height='15%'
+					width='90%'
 					borderRadius={20}>
 					<Typography gradient color='secondary' fontSize={16} bold uppercase>
 						Propósito
 					</Typography>
 				</CardButton>
 				<CardButton
+					flexDirection='row'
+					backgrondColor='#111111'
+					flexAlignItems='center'
+					flexJustifyContent='space-between'
+					// height='15%'
+					width='90%'
+					borderRadius={20}>
+					<Typography gradient color='secondary' fontSize={16} bold uppercase>
+						Descanso
+					</Typography>
+				</CardButton>
+				<CardButton
+					flexDirection='row'
+					backgrondColor='#111111'
+					flexAlignItems='center'
+					flexJustifyContent='space-between'
+					// height='15%'
+					width='90%'
+					borderRadius={20}>
+					<Typography gradient color='secondary' fontSize={16} bold uppercase>
+						Nutrição
+					</Typography>
+				</CardButton>
+				<CardButton
+					flexDirection='row'
+					backgrondColor='#111111'
+					flexAlignItems='center'
+					flexJustifyContent='space-between'
+					// height='15%'
+					width='90%'
+					borderRadius={20}>
+					<Typography gradient color='secondary' fontSize={16} bold uppercase>
+						Treinamento
+					</Typography>
+				</CardButton>
+				{/* <CardButton
 					flexDirection='column'
 					backgrondColor='transparent'
 					flexAlignItems='center'
@@ -59,7 +96,7 @@ export const Home = () => {
 					<Typography gradient color='secondary' fontSize={16} bold uppercase>
 						Treinamento
 					</Typography>
-				</CardButton>
+				</CardButton> */}
 			</FlexContainer>
 		</FlexContainer>
 	)

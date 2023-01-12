@@ -25,7 +25,13 @@ export function CardButton(props: CardButtonProps & FlexContainerProps & PropsWi
 		<Touchable delayPressIn={0} disabled={props.disabled} onPress={props.onPress}>
 			<FlexContainer {...props}>
 				{props.children}
-				<FlexContainer source={backFood} height={'31%'} width={'40%'} borderRadius={20} />
+				<FlexContainer
+					alignSelf='flex-end'
+					source={backFood}
+					height={'10%'}
+					width={'50%'}
+					borderRadius={20}
+				/>
 			</FlexContainer>
 		</Touchable>
 	)

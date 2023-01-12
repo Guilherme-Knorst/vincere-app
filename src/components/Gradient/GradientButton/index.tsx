@@ -15,12 +15,13 @@ export interface GradientProps {
 }
 
 const Gradient = styled(LinearGradient).attrs({
-	colors: ['#00fffa', '#9800ff'],
+	colors: ['#E6BF84', '#E6BF84', '#f48958', '#f48958'],
 	start: { x: 0, y: 0 },
 	end: { x: 1, y: 1 },
 	elevation: 40,
-	shadowColor: '#9800ff',
+	shadowColor: '#E6BF84',
 })<GradientProps>`
+	margin-bottom: 50px;
 	justify-content: center;
 	align-items: center;
 	border-radius: 6px;
