@@ -1,26 +1,42 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { FlexContainer } from '../../components/Container'
 import { ScreenHeader } from '../../components/ScreenHeader'
 import { TabBar } from '../../components/TabBar'
 import { HabitTracker } from '../HabitTracker'
 import { Home } from '../Home'
+import { useTheme } from 'styled-components'
+import { ComponentType } from 'react'
+import { DefaultScreenContainer } from '../../components/DefaultScreenContainer'
 
 const Tab = createBottomTabNavigator()
 
 export const Main = () => {
+	const theme = useTheme()
+
+	const withContainer = <P extends object>(Component: ComponentType) => {
+		return function WithContainer(props: P) {
+			return (
+				<DefaultScreenContainer>
+					<Component {...props} />
+				</DefaultScreenContainer>
+			)
+		}
+	}
+
 	return (
-		//aqui muda pra 106.1 pra corrigir quando n tem s botoes
-		<FlexContainer height='100%' flexDirection='row' backgrondColor='black'>
-			<Tab.Navigator
-				screenOptions={{
-					headerShown: false,
-					header: () => <ScreenHeader />,
-				}}
-				tabBar={props => <TabBar {...props} />}>
-				<Tab.Screen name='Home' component={Home} />
-				<Tab.Screen name='Habit Tracker' component={HabitTracker} />
-				<Tab.Screen name='Ranking' component={HabitTracker} />
-			</Tab.Navigator>
-		</FlexContainer>
+		<Tab.Navigator
+			sceneContainerStyle={{
+				backgroundColor: theme.palette.background.main,
+				display: 'flex',
+			}}
+			screenOptions={{
+				headerShown: true,
+				header: () => <ScreenHeader />,
+			}}
+			initialRouteName='Home'
+			tabBar={props => <TabBar {...props} />}>
+			<Tab.Screen name='Ranking' component={withContainer(HabitTracker)} />
+			<Tab.Screen name='Home' component={withContainer(Home)} />
+			<Tab.Screen name='Habit Tracker' component={withContainer(HabitTracker)} />
+		</Tab.Navigator>
 	)
 }

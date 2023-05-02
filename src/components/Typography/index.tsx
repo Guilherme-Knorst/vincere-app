@@ -1,9 +1,8 @@
 import MaskedView from '@react-native-masked-view/masked-view'
-import { LabelPosition } from '@react-navigation/bottom-tabs/lib/typescript/src/types'
 import { ReactNode } from 'react'
 import LinearGradient from 'react-native-linear-gradient'
 import styled, { css } from 'styled-components/native'
-import { pixelToDP, widthDP } from '../../utils'
+import { pixelToDP } from '../../utils'
 
 export interface TypographyProps {
 	children: ReactNode | string
@@ -26,17 +25,18 @@ const Text = styled.Text.attrs({})<TypographyProps>`
 	color: ${({ isFocused, color, theme }) =>
 		isFocused ? theme.palette[color].main : theme.palette[color].contrast};
 	font-size: ${({ fontSize, theme }) =>
-		fontSize ? pixelToDP(fontSize) : theme.typography.size.main};
+		fontSize ? pixelToDP(fontSize) : theme.typography.size.main + 'px'};
 	text-align: ${({ align }) => (align ? align : 'left')};
 	font-weight: ${({ bold }) => (bold ? 'bold' : 'normal')};
 	text-transform: ${({ uppercase }) => (uppercase ? 'uppercase' : 'none')};
-	line-height: ${({ lineHeight }) => (lineHeight ? lineHeight : 22)};
+	line-height: ${({ lineHeight }) => (lineHeight ? lineHeight : 22) + 'px'};
 	padding-left: ${pixelToDP(10)};
 	padding-right: ${pixelToDP(10)};
+	flex-shrink: 1;
 	${({ width }) =>
 		width &&
 		css`
-			width: ${widthDP(width)};
+			width: ${width};
 		`};
 `
 

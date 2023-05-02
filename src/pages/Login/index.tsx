@@ -1,34 +1,25 @@
 import { StatusBar } from 'react-native'
-import { auth0 } from '../../config/auth0'
-import { LogoImage } from '../../components/LogoImage'
-import { Typography } from '../../components/Typography'
-import { pixelToDP } from '../../utils'
-import { useAppDispatch } from '../../store/hooks'
-import { login } from '../../store/authSlice'
 import { GradientButton } from '../../components/Gradient/GradientButton'
 import { FlexContainer } from '../../components/Container'
 import defaultBackground from '../../../back2.jpg'
+import { useAuth0 } from 'react-native-auth0'
+import { heightDP } from '../../utils'
 
 export const Login = () => {
-	const dispatch = useAppDispatch()
+	const { authorize } = useAuth0()
 
 	const handleSubmit = async () => {
-		await auth0.webAuth
-			.authorize({ scope: 'openid profile email ', ui_locales: 'pt-BR' })
-			.then(credentials => {
-				dispatch(login(credentials))
-			})
-			.catch(error => console.log(error))
+		await authorize({ scope: 'openid profile email ', ui_locales: 'pt-BR' })
 	}
 
 	return (
 		<FlexContainer
-			source={defaultBackground}
-			height='100%'
+			backgroundImageSource={defaultBackground}
+			height='106.1%'
 			flexDirection='column'
-			flexAlignItems='center'
-			flexJustifyContent='flex-end'>
-			<StatusBar barStyle='light-content' backgroundColor='#000000' />
+			alignItems='center'
+			justifyContent='flex-end'>
+			{/* <StatusBar barStyle='light-content' backgroundColor='#F2D259' /> */}
 			{/* <LogoImage /> */}
 			{/* <Typography
 				lineHeight={30}

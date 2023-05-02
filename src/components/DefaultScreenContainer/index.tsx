@@ -1,27 +1,16 @@
-import defaultBackground from '../../../back1.jpg'
-import { FlexContainer, FlexContainerProps } from '../Container'
+import { FlexContainer } from '../Container'
 import { PropsWithChildren } from 'react'
-import { ImageBackground } from 'react-native'
+import { ImageSourcePropType } from 'react-native'
+import { widthDP } from '../../utils'
 
-// const Container = styled.View.attrs({})<DefaultScreenContainerProps>`
-// 	flex-direction: ${({ flexDirection }) => flexDirection ?? 'column'};
-// 	background-color: ${({ backgroundColor }) => (backgroundColor ? backgroundColor : 'transparent')};
-// 	width: ${widthDP('100%')};
-// 	height: ${heightDP('100%')};
-// 	justify-content: ${({ justifyContent }) => justifyContent ?? 'space-around'};
-// 	align-items: center;
-// `
+interface DefaultScreenContainerProps extends PropsWithChildren {
+	backgroundImageSource?: ImageSourcePropType
+}
 
-// const ContainerBackground = styled.ImageBackground.attrs(({ source }) => ({
-// 	source: source ? source : defaultBackground,
-// }))<DefaultScreenContainerBackgroundProps>`
-// 	flex-direction: ${({ flexDirection }) => flexDirection ?? 'column'};
-// 	width: ${widthDP('100%')};
-// 	height: ${heightDP('100%')};
-// 	justify-content: ${({ justifyContent }) => justifyContent ?? 'space-around'};
-// 	align-items: center;
-// `
-
-export const DefaultScreenContainer = (props: FlexContainerProps & PropsWithChildren) => {
-	return <FlexContainer {...props}>{props.children}</FlexContainer>
+export const DefaultScreenContainer = (props: DefaultScreenContainerProps) => {
+	return (
+		<FlexContainer width={widthDP('90%')} {...props} alignSelf='center'>
+			{props.children}
+		</FlexContainer>
+	)
 }

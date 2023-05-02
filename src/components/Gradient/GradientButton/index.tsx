@@ -41,7 +41,7 @@ const Gradient = styled(LinearGradient).attrs({
 		size === 'large' &&
 		css`
 			height: ${heightDP('8%')};
-			width: ${widthDP('50%')};
+			width: ${widthDP('63%')};
 		`};
 	${({ width }) =>
 		width &&

@@ -1,11 +1,7 @@
-import { PropsWithChildren, ReactNode } from 'react'
-import { pixelToDP, widthDP, heightDP } from '../../utils'
-import styled, { css } from 'styled-components/native'
+import { PropsWithChildren } from 'react'
 import Touchable from '../Touchable'
-import { Typography } from '../Typography'
 import backFood from '../../../backFood.jpg'
-import { GradientContainer } from '../LinearGradient'
-import { FlexContainer, FlexContainerProps } from '../Container'
+import { FlexContainer } from '../Container'
 
 export interface CardButtonProps {
 	onPress?: (() => Promise<void>) | (() => void)
@@ -20,17 +16,26 @@ export interface CardButtonProps {
 // 	color: ${({ theme }) => theme.palette.disabled.contrast};
 // `
 
-export function CardButton(props: CardButtonProps & FlexContainerProps & PropsWithChildren) {
+export function CardButton(props: CardButtonProps & PropsWithChildren) {
 	return (
 		<Touchable delayPressIn={0} disabled={props.disabled} onPress={props.onPress}>
-			<FlexContainer {...props}>
+			<FlexContainer
+				flexDirection='row'
+				alignItems='center'
+				justifyContent='space-between'
+				height='15%'
+				padding={5}
+				width='100%'
+				backgroundColor='#111111'
+				borderRadius={20}>
 				{props.children}
 				<FlexContainer
 					alignSelf='flex-end'
-					source={backFood}
-					height={'10%'}
-					width={'50%'}
+					flexDirection='row'
+					backgroundImageSource={backFood}
 					borderRadius={20}
+					width='150px'
+					height='90%'
 				/>
 			</FlexContainer>
 		</Touchable>

@@ -2,30 +2,37 @@ import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { Main } from './pages/Main'
 import { Login } from './pages/Login'
-import { useAppSelector } from './store/hooks'
-import { FlexContainer } from './components/Container'
+import { useAuth0 } from 'react-native-auth0'
+// import { ComponentType } from 'react'
+// import { DefaultScreenContainer } from './components/DefaultScreenContainer'
 
 const Stack = createNativeStackNavigator()
 
 export default function Routes() {
-	const isLogged = useAppSelector(state => state.auth.isLogged)
+	const { user } = useAuth0()
+
+	// const withContainer = <P extends object>(Component: ComponentType) => {
+	// 	return function WithContainer(props: P) {
+	// 		return (
+	// 			<DefaultScreenContainer>
+	// 				<Component {...props} />
+	// 			</DefaultScreenContainer>
+	// 		)
+	// 	}
+	// }
 
 	return (
 		<NavigationContainer>
-			{/* <FlexContainer
-				height='100%'
-				backgrondColor='black'
-				flexJustifyItems='center'
-				flexDirection='column'> */}
 			<Stack.Navigator
-				screenOptions={{ headerShown: false, contentStyle: { backgroundColor: 'black' } }}>
-				{!isLogged ? (
+				screenOptions={{
+					headerShown: false,
+				}}>
+				{!user ? (
 					<Stack.Screen name='Login' component={Login} />
 				) : (
 					<Stack.Screen name='Main' component={Main} />
 				)}
 			</Stack.Navigator>
-			{/* </FlexContainer> */}
 		</NavigationContainer>
 	)
 }

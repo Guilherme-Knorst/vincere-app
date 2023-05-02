@@ -10,6 +10,7 @@ export const theme = {
 		size: {
 			main: 16,
 		},
+		fontFamily: 'Helvetica Neue',
 	},
 	palette: {
 		primary: {
@@ -42,7 +43,10 @@ export const theme = {
 			main: '#6090ff',
 			contrast: '#fff',
 		},
-		background: '#000',
+		background: {
+			main: '#000',
+			contrast: '#212121',
+		},
 		footer: '#22272d',
 		card: '#364454',
 	},

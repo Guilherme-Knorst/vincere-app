@@ -1,45 +1,34 @@
-import { widthDP, heightDP } from '../../utils'
 import styled, { css } from 'styled-components/native'
 import LinearGradient from 'react-native-linear-gradient'
 import { PropsWithChildren } from 'react'
-import { ImageSourcePropType, ImageStyle, StyleProp } from 'react-native'
+import { ImageSourcePropType, FlexStyle } from 'react-native'
 import defaultBackground from '../../../back1.jpg'
 
-export interface FlexContainerProps {
+export interface FlexContainerProps extends FlexStyle {
 	gradient?: boolean
 	gradientBorderRadius?: number
-	flexDirection?: string
-	flexWrap?: string
-	flexAlignItems?: string
-	flexAlignContent?: string
-	flexJustifyItems?: string
-	flexJustifyContent?: string
-	flexRowGap?: number
-	flexColumnGap?: number
-	alignSelf?: string
 	width?: string
 	height?: string
 	borderRadius?: number
-	backgrondColor?: string
+	backgroundColor?: string
 	paddingRight?: number
 	paddingLeft?: number
 	paddingTop?: number
 	paddingBottom?: number
-	source?: ImageSourcePropType
-	imageStyle?: StyleProp<ImageStyle>
+	backgroundImageSource?: ImageSourcePropType
 	border?: boolean
 }
 
-const Container = styled.View.attrs({})<FlexContainerProps>`
+const Container = styled.View<FlexContainerProps>`
 	${({ border }) =>
 		border &&
 		css`
 			border: 1px solid red;
 		`};
-	${({ backgrondColor }) =>
-		backgrondColor &&
+	${({ backgroundColor }) =>
+		backgroundColor &&
 		css`
-			background-color: ${backgrondColor};
+			background-color: ${backgroundColor};
 		`};
 	${({ borderRadius }) =>
 		borderRadius &&
@@ -76,50 +65,45 @@ const Container = styled.View.attrs({})<FlexContainerProps>`
 		css`
 			flex-wrap: ${flexWrap};
 		`};
-	${({ flexJustifyItems }) =>
-		flexJustifyItems &&
+	${({ alignItems }) =>
+		alignItems &&
 		css`
-			justify-items: ${flexJustifyItems};
+			align-items: ${alignItems};
 		`};
-	${({ flexAlignItems }) =>
-		flexAlignItems &&
+	${({ alignContent }) =>
+		alignContent &&
 		css`
-			align-items: ${flexAlignItems};
-		`};
-	${({ flexAlignContent }) =>
-		flexAlignContent &&
-		css`
-			align-content: ${flexAlignContent};
+			align-content: ${alignContent};
 		`};
 	${({ alignSelf }) =>
 		alignSelf &&
 		css`
 			align-self: ${alignSelf};
 		`};
-	${({ flexJustifyContent }) =>
-		flexJustifyContent &&
+	${({ justifyContent }) =>
+		justifyContent &&
 		css`
-			justify-content: ${flexJustifyContent};
+			justify-content: ${justifyContent};
 		`};
 	${({ width }) =>
 		width &&
 		css`
-			width: ${widthDP(width)};
+			width: ${width};
 		`};
 	${({ height }) =>
 		height &&
 		css`
-			height: ${heightDP(height)};
+			height: ${height};
 		`};
 `
 
 const ContainerImageBackground = styled.ImageBackground.attrs(({ source }) => ({
 	source: source ? source : defaultBackground,
 }))<FlexContainerProps>`
-	${({ backgrondColor }) =>
-		backgrondColor &&
+	${({ backgroundColor }) =>
+		backgroundColor &&
 		css`
-			background-color: ${backgrondColor};
+			background-color: ${backgroundColor};
 		`};
 	${({ borderRadius }) =>
 		borderRadius &&
@@ -156,40 +140,35 @@ const ContainerImageBackground = styled.ImageBackground.attrs(({ source }) => ({
 		css`
 			flex-wrap: ${flexWrap};
 		`};
-	${({ flexJustifyItems }) =>
-		flexJustifyItems &&
+	${({ alignItems }) =>
+		alignItems &&
 		css`
-			justify-items: ${flexJustifyItems};
+			align-items: ${alignItems};
 		`};
-	${({ flexAlignItems }) =>
-		flexAlignItems &&
+	${({ alignContent }) =>
+		alignContent &&
 		css`
-			align-items: ${flexAlignItems};
-		`};
-	${({ flexAlignContent }) =>
-		flexAlignContent &&
-		css`
-			align-content: ${flexAlignContent};
+			align-content: ${alignContent};
 		`};
 	${({ alignSelf }) =>
 		alignSelf &&
 		css`
 			align-self: ${alignSelf};
 		`};
-	${({ flexJustifyContent }) =>
-		flexJustifyContent &&
+	${({ justifyContent }) =>
+		justifyContent &&
 		css`
-			justify-content: ${flexJustifyContent};
+			justify-content: ${justifyContent};
 		`};
 	${({ width }) =>
 		width &&
 		css`
-			width: ${widthDP(width)};
+			width: ${width};
 		`};
 	${({ height }) =>
 		height &&
 		css`
-			height: ${heightDP(height)};
+			height: ${height};
 		`};
 `
 
@@ -217,9 +196,9 @@ export const FlexContainer = (props: FlexContainerProps & PropsWithChildren) => 
 			</Gradient>
 		)
 
-	if (props.source)
+	if (props.backgroundImageSource)
 		return (
-			<ContainerImageBackground {...props} imageStyle={props.imageStyle}>
+			<ContainerImageBackground {...props} source={props.backgroundImageSource}>
 				<Container {...props}>{props.children}</Container>
 			</ContainerImageBackground>
 		)
