@@ -6,6 +6,8 @@ import { LogBox } from 'react-native'
 import { AppRegistry } from 'react-native'
 import App from './App'
 import { name as appName } from './app.json'
+import moment from 'moment'
+import 'moment/locale/pt-br'
 
 const ignoreWarns = [
 	'Prevent',
@@ -32,4 +34,36 @@ console.warn = (...arg) => {
 }
 
 LogBox.ignoreLogs(ignoreWarns)
+
+moment.locale('pt-br', {
+	relativeTime: {
+		future: 'Em %s',
+		past: 'Há %s',
+		s: 'instantes',
+		m: '1 minuto',
+		mm: '%d minutos',
+		MM: '%d meses',
+		M: '1 mês',
+		h: '1 hora',
+		hh: '%d horas',
+		dd: '%d dias',
+		d: '1 dia',
+		y: '1 ano',
+		yy: '%d anos',
+	},
+	months: [
+		'Janeiro',
+		'Fevereiro',
+		'Março',
+		'Abril',
+		'Maio',
+		'Junho',
+		'Julho',
+		'Agosto',
+		'Setembro',
+		'Outubro',
+		'Novembro',
+		'Dezembro',
+	],
+})
 AppRegistry.registerComponent(appName, () => App)

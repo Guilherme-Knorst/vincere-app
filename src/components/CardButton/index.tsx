@@ -2,10 +2,13 @@ import { PropsWithChildren } from 'react'
 import Touchable from '../Touchable'
 import backFood from '../../../backFood.jpg'
 import { FlexContainer } from '../Container'
+import { TouchableOpacity } from 'react-native'
+import { Typography } from '../Typography'
 
 export interface CardButtonProps {
 	onPress?: (() => Promise<void>) | (() => void)
 	disabled?: boolean
+	text: string
 }
 
 // const disabledBackground = css`
@@ -16,28 +19,25 @@ export interface CardButtonProps {
 // 	color: ${({ theme }) => theme.palette.disabled.contrast};
 // `
 
-export function CardButton(props: CardButtonProps & PropsWithChildren) {
+export function CardButton({ text, disabled, onPress }: CardButtonProps & PropsWithChildren) {
 	return (
-		<Touchable delayPressIn={0} disabled={props.disabled} onPress={props.onPress}>
+		<TouchableOpacity delayPressIn={0} disabled={disabled} onPress={onPress}>
 			<FlexContainer
 				flexDirection='row'
 				alignItems='center'
-				justifyContent='space-between'
-				height='15%'
-				padding={5}
-				width='100%'
+				border
 				backgroundColor='#111111'
 				borderRadius={20}>
-				{props.children}
+				<Typography gradient color='secondary' fontSize={16} bold uppercase>
+					{text}
+				</Typography>
 				<FlexContainer
-					alignSelf='flex-end'
-					flexDirection='row'
 					backgroundImageSource={backFood}
 					borderRadius={20}
-					width='150px'
-					height='90%'
+					height='90px'
+					width='140px'
 				/>
 			</FlexContainer>
-		</Touchable>
+		</TouchableOpacity>
 	)
 }

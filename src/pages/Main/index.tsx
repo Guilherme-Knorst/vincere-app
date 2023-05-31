@@ -6,10 +6,11 @@ import { Home } from '../Home'
 import { useTheme } from 'styled-components'
 import { ComponentType } from 'react'
 import { DefaultScreenContainer } from '../../components/DefaultScreenContainer'
+import Workout from '../Workout'
 
 const Tab = createBottomTabNavigator()
 
-export const Main = () => {
+const TabNavigator = () => {
 	const theme = useTheme()
 
 	const withContainer = <P extends object>(Component: ComponentType) => {
@@ -32,11 +33,15 @@ export const Main = () => {
 				headerShown: true,
 				header: () => <ScreenHeader />,
 			}}
-			initialRouteName='Home'
+			initialRouteName='Treinos'
 			tabBar={props => <TabBar {...props} />}>
-			<Tab.Screen name='Ranking' component={withContainer(HabitTracker)} />
+			<Tab.Screen name='Treinos' component={withContainer(Workout)} />
 			<Tab.Screen name='Home' component={withContainer(Home)} />
-			<Tab.Screen name='Habit Tracker' component={withContainer(HabitTracker)} />
+			{/* <Tab.Screen name='Habit Tracker' component={withContainer(HabitTracker)} /> */}
 		</Tab.Navigator>
 	)
+}
+
+export const Main = () => {
+	return <TabNavigator />
 }

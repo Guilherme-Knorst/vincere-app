@@ -1,12 +1,17 @@
 import styled, { css } from 'styled-components/native'
 import LinearGradient from 'react-native-linear-gradient'
 import { PropsWithChildren } from 'react'
-import { ImageSourcePropType, FlexStyle } from 'react-native'
+import { ImageSourcePropType, FlexStyle, ViewProps } from 'react-native'
 import defaultBackground from '../../../back1.jpg'
+import Animated, { AnimateProps } from 'react-native-reanimated'
 
-export interface FlexContainerProps extends FlexStyle {
+interface GradientProps {
 	gradient?: boolean
 	gradientBorderRadius?: number
+	gradientColors?: Array<string>
+}
+
+export interface FlexContainerProps extends FlexStyle, PropsWithChildren, GradientProps {
 	width?: string
 	height?: string
 	borderRadius?: number
@@ -19,11 +24,26 @@ export interface FlexContainerProps extends FlexStyle {
 	border?: boolean
 }
 
-const Container = styled.View<FlexContainerProps>`
+export interface FlexContainerAnimatedProps
+	extends FlexStyle,
+		AnimateProps<ViewProps>,
+		GradientProps {
+	width?: string
+	height?: string
+	borderRadius?: number
+	backgroundColor?: string
+	paddingRight?: number
+	paddingLeft?: number
+	paddingTop?: number
+	paddingBottom?: number
+	border?: boolean
+}
+
+const Container = styled(Animated.View)<FlexContainerProps>`
 	${({ border }) =>
 		border &&
 		css`
-			border: 1px solid red;
+			border: 1px solid #f4d058;
 		`};
 	${({ backgroundColor }) =>
 		backgroundColor &&
@@ -172,35 +192,50 @@ const ContainerImageBackground = styled.ImageBackground.attrs(({ source }) => ({
 		`};
 `
 
-const Gradient = styled(LinearGradient).attrs({
+const Gradient = styled(LinearGradient).attrs(({ colors }) => ({
 	// colors: ['#00fffa', '#9800ff'],
-	// colors: ['#E6BF84', '#E6BF84', '#f48958', '#f48958'],
-	colors: ['#E6BF84', '#E6BF84', '#f48958', '#f48958'],
+	colors: colors ?? ['#f4d058', '#ef9611', '#fda313', '#f4d058'],
 	start: { x: 0, y: 0 },
 	end: { x: 1, y: 1 },
 	elevation: 40,
 	shadowColor: '#9800ff',
-})<FlexContainerProps>`
-	${({ borderRadius }) =>
-		borderRadius &&
+}))<FlexContainerProps & PropsWithChildren>`
+	${({ gradientBorderRadius }) =>
+		gradientBorderRadius &&
 		css`
-			border-radius: ${borderRadius};
+			border-radius: ${gradientBorderRadius};
 		`};
 `
 
-export const FlexContainer = (props: FlexContainerProps & PropsWithChildren) => {
+export const FlexContainer = (props: FlexContainerProps & GradientProps) => {
 	if (props.gradient)
 		return (
-			<Gradient borderRadius={props.borderRadius}>
-				<Container {...props}>{props.children}</Container>
-			</Gradient>
+			<Container {...props} gradientBorderRadius={props.gradientBorderRadius}>
+				<Gradient
+					padding={props.padding}
+					gradientBorderRadius={props.gradientBorderRadius}
+					colors={props.gradientColors}>
+					{props.children}
+				</Gradient>
+			</Container>
 		)
 
 	if (props.backgroundImageSource)
 		return (
 			<ContainerImageBackground {...props} source={props.backgroundImageSource}>
-				<Container {...props}>{props.children}</Container>
+				<Container>{props.children}</Container>
 			</ContainerImageBackground>
+		)
+
+	return <Container {...props}>{props.children}</Container>
+}
+
+export const FlexContainerAnimated = (props: FlexContainerAnimatedProps & PropsWithChildren) => {
+	if (props.gradient)
+		return (
+			<Gradient gradientBorderRadius={props.gradientBorderRadius} colors={props.gradientColors}>
+				<Container {...props}>{props.children}</Container>
+			</Gradient>
 		)
 
 	return <Container {...props}>{props.children}</Container>

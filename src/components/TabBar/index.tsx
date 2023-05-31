@@ -19,7 +19,7 @@ export const TabBar = ({ state, descriptors, navigation }: BottomTabBarProps) =>
 				padding={20}
 				width='90%'
 				borderRadius={20}
-				justifyContent='space-between'>
+				justifyContent='space-evenly'>
 				{state.routes.map((route, index) => {
 					const { options } = descriptors[route.key]
 					// const label =

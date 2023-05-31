@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { Main } from './pages/Main'
 import { Login } from './pages/Login'
 import { useAuth0 } from 'react-native-auth0'
+
 // import { ComponentType } from 'react'
 // import { DefaultScreenContainer } from './components/DefaultScreenContainer'
 

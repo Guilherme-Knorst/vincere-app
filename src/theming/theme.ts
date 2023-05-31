@@ -22,9 +22,7 @@ export const theme = {
 			contrast: '#14171a',
 		},
 		tertiary: {
-			light: '#886bff',
-			main: '#8930ff',
-			dark: '#6128ff',
+			main: '#00fffb',
 			contrast: '#00fffb',
 		},
 		body: {
@@ -44,8 +42,8 @@ export const theme = {
 			contrast: '#fff',
 		},
 		background: {
-			main: '#000',
-			contrast: '#212121',
+			main: '#212121',
+			contrast: '#000',
 		},
 		footer: '#22272d',
 		card: '#364454',

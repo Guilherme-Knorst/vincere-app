@@ -9,7 +9,7 @@ export interface TypographyProps {
 	align?: string
 	bold?: boolean
 	isFocused?: boolean
-	color: 'primary' | 'secondary' | 'tertiary'
+	color?: 'primary' | 'secondary' | 'tertiary'
 	fontSize?: number
 	uppercase?: boolean
 	width?: string
@@ -22,16 +22,20 @@ export interface GradientTypographyProps extends TypographyProps {
 }
 
 const Text = styled.Text.attrs({})<TypographyProps>`
-	color: ${({ isFocused, color, theme }) =>
+	color: ${({ isFocused, color = 'primary', theme }) =>
 		isFocused ? theme.palette[color].main : theme.palette[color].contrast};
 	font-size: ${({ fontSize, theme }) =>
 		fontSize ? pixelToDP(fontSize) : theme.typography.size.main + 'px'};
 	text-align: ${({ align }) => (align ? align : 'left')};
 	font-weight: ${({ bold }) => (bold ? 'bold' : 'normal')};
 	text-transform: ${({ uppercase }) => (uppercase ? 'uppercase' : 'none')};
-	line-height: ${({ lineHeight }) => (lineHeight ? lineHeight : 22) + 'px'};
-	padding-left: ${pixelToDP(10)};
-	padding-right: ${pixelToDP(10)};
+	${({ lineHeight }) =>
+		lineHeight &&
+		css`
+			line-height: ${lineHeight};
+		`};
+	/* padding-left: ${pixelToDP(10)};
+	padding-right: ${pixelToDP(10)}; */
 	flex-shrink: 1;
 	${({ width }) =>
 		width &&
@@ -48,7 +52,7 @@ const GradientText = styled(Text).attrs({
 `
 
 const Gradient = styled(LinearGradient).attrs({
-	colors: ['#E6BF84', '#E6BF84', '#f48958', '#f48958'],
+	colors: ['#f4d058', '#ef9611', '#fda313', '#f4d058'],
 	// colors: ['#00fffb', '#00fffb', '#00fffb', '#9800ff'],
 	start: { x: 0, y: 0 },
 	end: { x: 1, y: 0 },

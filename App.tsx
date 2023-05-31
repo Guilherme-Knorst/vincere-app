@@ -1,3 +1,4 @@
+import 'react-native-gesture-handler'
 import { ThemeProvider } from 'styled-components'
 import { theme } from './src/theming/theme'
 import Routes from './src/routes'

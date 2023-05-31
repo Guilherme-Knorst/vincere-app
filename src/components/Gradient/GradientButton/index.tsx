@@ -4,6 +4,8 @@ import Touchable from '../../Touchable'
 import LinearGradient from 'react-native-linear-gradient'
 import { Typography } from '../../Typography'
 import { TypographyProps } from '../../Typography'
+import { FlexContainer } from '../../Container'
+import { Button } from '../../Button'
 
 export interface ComponentProps {
 	onPress: (() => Promise<void>) | (() => void)
@@ -52,10 +54,10 @@ const Gradient = styled(LinearGradient).attrs({
 
 export function GradientButton(props: ComponentProps & GradientProps & TypographyProps) {
 	return (
-		<Touchable delayPressIn={0} onPress={props.onPress}>
-			<Gradient size={props.size}>
-				<Typography {...props}>{props.children}</Typography>
-			</Gradient>
-		</Touchable>
+		// <Touchable delayPressIn={0} onPress={props.onPress}>
+		<Gradient size={props.size}>
+			<Button color='primary'>{props.children}</Button>
+		</Gradient>
+		// </Touchable>
 	)
 }

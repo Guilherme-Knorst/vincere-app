@@ -19,5 +19,5 @@
 		"jsx": "react-jsx",
 		"types": ["styled-components-react-native"],
 	},
-	"include": ["src", "jsconfig.json", "imgConfig.ts", "**/*.tsx"]
+	"include": ["src", "jsconfig.json", "imgConfig.ts", "**/*.tsx", "src/components/LinearGradient"]
 }
