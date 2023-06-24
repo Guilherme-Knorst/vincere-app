@@ -1,12 +1,13 @@
 import { FunctionComponent } from 'react'
-import { KeyboardTypeOptions } from 'react-native'
+import { KeyboardTypeOptions, NativeSyntheticEvent, TextInputChangeEventData } from 'react-native'
 import styled, { css } from 'styled-components/native'
 import { Typography } from '../Typography'
 import { FlexContainer } from '../Container'
 
 interface InputProps {
+	onChange?: ((e: NativeSyntheticEvent<TextInputChangeEventData>) => void) | undefined
 	label?: string
-	value: string
+	value: string | number
 	keyboardType: KeyboardTypeOptions
 	width?: string
 	textAlign?: 'center' | 'left' | 'right' | undefined
@@ -35,16 +36,31 @@ const TextInput: FunctionComponent<InputProps> = ({
 	keyboardType,
 	width,
 	textAlign,
+	onChange,
 }: InputProps) => {
 	if (label)
 		return (
 			<FlexContainer>
 				<Typography fontSize={18}>{label}</Typography>
-				<Input value={value} keyboardType={keyboardType} width={width} textAlign={textAlign} />
+				<Input
+					value={value.toString()}
+					keyboardType={keyboardType}
+					width={width}
+					textAlign={textAlign}
+					onChange={onChange}
+				/>
 			</FlexContainer>
 		)
 
-	return <Input value={value} keyboardType={keyboardType} width={width} textAlign={textAlign} />
+	return (
+		<Input
+			onChange={onChange}
+			value={value.toString()}
+			keyboardType={keyboardType}
+			width={width}
+			textAlign={textAlign}
+		/>
+	)
 }
 
 export default TextInput

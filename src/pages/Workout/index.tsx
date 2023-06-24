@@ -1,10 +1,10 @@
 import { FunctionComponent, useEffect, useMemo, useState } from 'react'
-import WorkoutItem from '../../components/WorkoutItem'
+import ExerciseItem from '../../components/ExerciseItem'
 import { FlexContainer, FlexContainerAnimated } from '../../components/Container'
-import { ListRenderItem, ScrollView } from 'react-native'
+import { ListRenderItem, ScrollView, TouchableOpacity } from 'react-native'
 import { Typography } from '../../components/Typography'
 import { GradientButton } from '../../components/Gradient/GradientButton'
-import { WorkoutForm } from '../../components/WorkoutForm'
+import { ExerciseForm } from '../../components/ExerciseForm'
 import { showModal } from '@whitespectre/rn-modal-presenter'
 import { WorkoutModel } from '../../models/workout'
 import ReactNativeCalendarStrip from 'react-native-calendar-strip'
@@ -15,98 +15,51 @@ import { LightSpeedInLeft, LightSpeedInRight } from 'react-native-reanimated'
 import { FadeIn } from 'react-native-reanimated'
 import { Button } from '../../components/Button'
 import { FlatList } from 'react-native-gesture-handler'
+import { ExerciseModel } from '../../models/exercise'
+import { useAppDispatch, useAppSelector } from '../../store/hooks'
+import { makeSelectWorkoutByDay, updateWorkout } from '../../store/workoutSlice'
+import { useSelector } from 'react-redux'
 
 interface WorkoutProps {}
 
-const dados: WorkoutModel[] = [
-	{
-		id: 1,
-		name: 'Supino reto',
-		weight: '50',
-		repetitions: '10',
-		series: '3',
-	},
-	// {
-	// 	id: 2,
-	// 	name: 'Puxada',
-	// 	weight: '70',
-	// 	repetitions: '8',
-	// 	series: '4',
-	// },
-	// {
-	// 	id: 3,
-	// 	name: 'Puxada',
-	// 	weight: '70',
-	// 	repetitions: '8',
-	// 	series: '4',
-	// },
-	// {
-	// 	id: 4,
-	// 	name: 'Puxada',
-	// 	weight: '70',
-	// 	repetitions: '8',
-	// 	series: '4',
-	// },
-	// {
-	// 	id: 5,
-	// 	name: 'Puxada',
-	// 	weight: '70',
-	// 	repetitions: '8',
-	// 	series: '4',
-	// },
-	// {
-	// 	id: 6,
-	// 	name: 'Puxada',
-	// 	weight: '70',
-	// 	repetitions: '8',
-	// 	series: '4',
-	// },
-	// {
-	// 	id: 7,
-	// 	name: 'Puxada',
-	// 	weight: '70',
-	// 	repetitions: '8',
-	// 	series: '4',
-	// },
-]
-
 const Workout: FunctionComponent<WorkoutProps> = () => {
-	const [workoutList, setworkoutList] = useState(dados)
-	const [selectedDate, setSelectedDate] = useState<Moment>()
-	const [lastVolume, setLastVolume] = useState(999)
-
-	const totalVolume = useMemo(
-		() =>
-			workoutList.reduce((acc, { repetitions, series, weight }) => {
-				return acc + parseInt(series, 10) * parseInt(repetitions, 10) * parseInt(weight, 10)
-			}, 0),
-		[workoutList],
+	const [selectedDate, setSelectedDate] = useState<Moment>(moment())
+	const workout = useSelector(
+		useMemo(() => makeSelectWorkoutByDay(selectedDate.format('dddd')), [selectedDate]),
 	)
-
+	const dispatch = useAppDispatch()
 	const handleDataChange = (date: Moment) => setSelectedDate(date)
 
 	const showForm = () => {
-		showModal(WorkoutForm, null)
+		showModal(ExerciseForm, null)
 	}
 
-	const renderWorkout: ListRenderItem<WorkoutModel> = ({ item, index }) => (
-		<WorkoutItem
-			name={item.name}
-			repetitions={item.repetitions}
-			series={item.series}
-			weight={item.weight}
-			animationAdd={index * 200}
-		/>
-	)
+	const renderExercise: ListRenderItem<ExerciseModel> = ({ item, index }) => {
+		const onChangeExercise = (updatedExercise: ExerciseModel) => {
+			dispatch(
+				updateWorkout({
+					...workout,
+					exercises: [
+						...workout.exercises.map(e => (e.id === item.id ? { ...updatedExercise } : { ...e })),
+					],
+				}),
+			)
+		}
+		return (
+			<ExerciseItem
+				exercise={item}
+				animationAdd={index * 200}
+				onChangeExercise={onChangeExercise}
+			/>
+		)
+	}
 
 	return (
 		<ScrollView nestedScrollEnabled>
-			<FlexContainer justifyContent='space-around' height={heightDP('40%')}>
-				<FlexContainer>
-					<Typography color='primary' fontSize={30}>
-						Treino
-					</Typography>
-				</FlexContainer>
+			<Typography color='primary' fontSize={30} gradient bold>
+				Treinos
+			</Typography>
+			<FlexContainer justifyContent='space-evenly' height={heightDP('30%')}>
 				<FlexContainerAnimated entering={FadeIn.duration(1300)}>
 					<ReactNativeCalendarStrip
 						locale={{ name: 'pt-br', config: {} }}
@@ -117,6 +70,7 @@ const Workout: FunctionComponent<WorkoutProps> = () => {
 							paddingBottom: 10,
 							borderRadius: 20,
 						}}
+						selectedDate={selectedDate}
 						calendarColor={'#f4d058'}
 						calendarHeaderStyle={{ color: theme.palette.secondary.contrast, fontSize: 18 }}
 						dateNumberStyle={{ color: theme.palette.secondary.contrast, fontSize: 20 }}
@@ -125,7 +79,10 @@ const Workout: FunctionComponent<WorkoutProps> = () => {
 						onDateSelected={handleDataChange}
 					/>
 				</FlexContainerAnimated>
-				<FlexContainer alignSelf='center' justifyContent='space-between' height='30%'>
+				<Typography color='primary' fontSize={30} align='center'>
+					{workout?.name}
+				</Typography>
+				{/* <FlexContainer alignSelf='center' justifyContent='space-between' height='30%'>
 					<Typography bold fontSize={18} align='center'>
 						Volume total {totalVolume} vs {lastVolume}
 					</Typography>
@@ -146,20 +103,15 @@ const Workout: FunctionComponent<WorkoutProps> = () => {
 							Semana passada: {lastVolume}
 						</Typography>
 					)}
-				</FlexContainer>
+				</FlexContainer> */}
 			</FlexContainer>
-
-			<FlatList nestedScrollEnabled data={dados} renderItem={renderWorkout} key='id' />
-
-			{/* {dados.map((i, index) => (
-				<WorkoutItem
-					name={i.name}
-					repetitions={i.repetitions}
-					series={i.series}
-					weight={i.weight}
-					animationAdd={index * 200}
-				/>
-			))} */}
+			{/* {console.log(workout?.exercises[0].series)} */}
+			<FlatList
+				nestedScrollEnabled
+				data={workout?.exercises}
+				renderItem={renderExercise}
+				key='id'
+			/>
 
 			<FlexContainer
 				width='30%'

@@ -35,7 +35,7 @@ console.warn = (...arg) => {
 
 LogBox.ignoreLogs(ignoreWarns)
 
-moment.locale('pt-br', {
+moment.updateLocale('pt-br', {
 	relativeTime: {
 		future: 'Em %s',
 		past: 'Há %s',
@@ -65,5 +65,6 @@ moment.locale('pt-br', {
 		'Novembro',
 		'Dezembro',
 	],
+	weekdays: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
 })
 AppRegistry.registerComponent(appName, () => App)

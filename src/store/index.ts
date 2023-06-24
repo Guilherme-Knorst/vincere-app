@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit'
 import authReducer from './authSlice'
+import workoutReducer from './workoutSlice'
 
 export const store = configureStore({
 	reducer: {
 		auth: authReducer,
+		workout: workoutReducer,
 	},
 })
 // Infer the `RootState` and `AppDispatch` types from the store itself

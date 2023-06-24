@@ -1,8 +1,17 @@
-import { FunctionComponent } from 'react'
-import { FlexContainer } from '../Container'
+import { FunctionComponent, useMemo } from 'react'
+import { FlexContainer, FlexContainerAnimated } from '../Container'
 import { Typography } from '../Typography'
-
+import { LightSpeedInRight } from 'react-native-reanimated'
+import { useTheme } from 'styled-components/native'
+import { ExerciseModel } from '../../models/exercise'
 import ScrollPicker from 'react-native-wheel-scrollview-picker'
+import { Button } from '../Button'
+
+interface ExerciseItemProps {
+	exercise: ExerciseModel
+	animationAdd?: number
+	onChangeExercise: (exercise: ExerciseModel) => void
+}
 
 const repetitions = [
 	'0',
@@ -1413,102 +1422,142 @@ const weight = [
 	'999',
 ]
 
-interface NumberPickerConfig {
-	min: number
-	max: number
-	label: string
-	value: number
-}
-
-export interface NumberScrollPickerProps {
-	config: NumberPickerConfig[]
-	onChange: (value: string) => void
-	width?: string
-	height?: string
-}
-
-const NumberScrollPicker: FunctionComponent<NumberScrollPickerProps> = ({
-	config,
-	onChange,
-	width,
-	height,
+const ExerciseItem: FunctionComponent<ExerciseItemProps> = ({
+	exercise: { id, name, series: exerciseSeries, category },
+	animationAdd = 0,
+	onChangeExercise,
 }) => {
+	const theme = useTheme()
+	const volume = useMemo(
+		() =>
+			series.reduce((acc2, { repetitions, weight }) => {
+				return acc2 + repetitions * weight
+			}, 0),
+		[series],
+	)
+
+	const addSerie = () => {
+		console.log('adicionar')
+	}
+
+	const onChange = (idToChange: number, fieldName: string, value: number) => {
+		onChangeExercise({
+			id,
+			name,
+			category,
+			series: [
+				...exerciseSeries.map(s => (s.id === idToChange ? { ...s, [fieldName]: value } : { ...s })),
+			],
+		})
+	}
+
+	console.log(exerciseSeries[0])
+
+	// const onChangeRepetitions = (seriesId: number, repetitions: number | string) => {
+	// 	onChangeExercise({
+	// 		id,
+	// 		name,
+	// 		series: [...exerciseSeries.filter(s => s.id !== seriesId), {}],
+	// 		category,
+	// 	})
+	// }
+
+	// const onChangeWeight = (seriesId: number, weight: number | string) => {
+	// 	//
+	// }
 	return (
-		<FlexContainer>
+		<FlexContainerAnimated
+			entering={LightSpeedInRight.duration(animationAdd + 500)}
+			gradient
+			gradientProps={{
+				borderRadius: 50,
+				marginTop: 30,
+				paddingTop: 20,
+				paddingBottom: 20,
+				paddingLeft: 20,
+				paddingRight: 20,
+			}}>
+			<FlexContainer
+				border
+				borderRadius={20}
+				paddingTop={10}
+				paddingBottom={10}
+				paddingLeft={20}
+				paddingRight={20}
+				flexDirection='row'
+				justifyContent='center'
+				backgroundColor={theme.palette.background.contrast}>
+				<Typography fontSize={23} gradient bold>
+					{name}
+				</Typography>
+			</FlexContainer>
 			<FlexContainer alignItems='stretch'>
 				<FlexContainer alignItems='center'>
 					<Typography fontSize={17} color='secondary' bold>
 						Séries
 					</Typography>
 				</FlexContainer>
-				<ScrollPicker
-					dataSource={series}
-					selectedIndex={10}
-					renderItem={(data, index) => (
-						<Typography color='secondary' fontSize={20}>
-							{data}
-						</Typography>
-					)}
-					onValueChange={(data, selectedIndex) => {
-						//
-					}}
-					wrapperHeight={40}
-					itemHeight={30}
-					highlightColor='#fcb227'
-					// highlightBorderWidth={2}
-				/>
 			</FlexContainer>
 			<FlexContainer flexDirection='row' justifyContent='space-evenly'>
-				<FlexContainer>
-					<FlexContainer alignItems='center'>
-						<Typography fontSize={17} color='secondary' bold>
-							Repetições
-						</Typography>
-					</FlexContainer>
-					<ScrollPicker
-						dataSource={repetitions}
-						selectedIndex={10}
-						renderItem={(data, index) => (
-							<Typography color='secondary' fontSize={20}>
-								{data}
-							</Typography>
-						)}
-						onValueChange={(data, selectedIndex) => {
-							//
-						}}
-						wrapperHeight={40}
-						itemHeight={30}
-						highlightColor='#fcb227'
-						// highlightBorderWidth={2}
-					/>
-				</FlexContainer>
-				<FlexContainer>
-					<FlexContainer alignItems='center'>
-						<Typography fontSize={17} color='secondary' bold>
-							Carga
-						</Typography>
-					</FlexContainer>
-					<ScrollPicker
-						dataSource={weight}
-						selectedIndex={10}
-						renderItem={(data, index) => (
-							<Typography color='secondary' fontSize={20}>
-								{data}
-							</Typography>
-						)}
-						onValueChange={(data, selectedIndex) => {
-							//
-						}}
-						wrapperHeight={40}
-						itemHeight={30}
-						highlightColor='#fcb227'
-						// highlightBorderWidth={2}
-					/>
-				</FlexContainer>
-				{/* ))} */}
+				{exerciseSeries.map(serie => (
+					<>
+						<FlexContainer>
+							<FlexContainer alignItems='center'>
+								<Typography fontSize={17} color='secondary' bold>
+									Repetições
+								</Typography>
+							</FlexContainer>
+							<ScrollPicker
+								dataSource={repetitions}
+								selectedIndex={serie.repetitions}
+								renderItem={(data, index) => (
+									<Typography color='secondary' fontSize={20}>
+										{data}
+									</Typography>
+								)}
+								onValueChange={data => onChange(serie.id, 'repetitions', data as number)}
+								wrapperHeight={40}
+								itemHeight={30}
+								highlightColor='#fcb227'
+								// highlightBorderWidth={2}
+							/>
+						</FlexContainer>
+						<FlexContainer>
+							<FlexContainer alignItems='center'>
+								<Typography fontSize={17} color='secondary' bold>
+									Carga
+								</Typography>
+							</FlexContainer>
+							<ScrollPicker
+								dataSource={weight}
+								selectedIndex={serie.weight}
+								renderItem={(data, index) => (
+									<Typography color='secondary' fontSize={20}>
+										{data}
+									</Typography>
+								)}
+								onValueChange={data => onChange(serie.id, 'weight', data as number)}
+								wrapperHeight={40}
+								itemHeight={30}
+								highlightColor='#fcb227'
+								// highlightBorderWidth={2}
+							/>
+						</FlexContainer>
+					</>
+				))}
 			</FlexContainer>
-		</FlexContainer>
+			<FlexContainer marginTop={20} width='30%' alignSelf='center' justifyContent='center'>
+				<Button onPress={addSerie} size='medium' color='primary'>
+					Adicionar
+				</Button>
+			</FlexContainer>
+			{/* <FlexContainer alignSelf='center' marginTop={20}>
+				<Typography color='secondary' fontSize={23} bold>
+					Volume {volume} vs 98
+				</Typography>
+			</FlexContainer> */}
+		</FlexContainerAnimated>
 	)
 }
 
-export default NumberScrollPicker
+export default ExerciseItem
