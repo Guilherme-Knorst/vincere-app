@@ -13,6 +13,8 @@ const Tab = createBottomTabNavigator()
 const TabNavigator = () => {
 	const theme = useTheme()
 
+	console.log('main')
+
 	const withContainer = <P extends object>(Component: ComponentType) => {
 		return function WithContainer(props: P) {
 			return (

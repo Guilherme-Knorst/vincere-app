@@ -72,10 +72,13 @@ const ButtonView = styled.View.attrs({
 	shadowColor: '#ffea00',
 })<ButtonViewProps>`
 	${({ width }) =>
-		width &&
-		css`
-			width: ${width};
-		`};
+		width
+			? css`
+					width: ${width};
+			  `
+			: css`
+					width: ${widthDP('50%')};
+			  `};
 	${({ size }) =>
 		size === 'small' &&
 		css`

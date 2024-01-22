@@ -10,7 +10,9 @@ import { useAuth0 } from 'react-native-auth0'
 const Stack = createNativeStackNavigator()
 
 export default function Routes() {
-	const { user } = useAuth0()
+	const { user, error, isLoading } = useAuth0()
+
+	console.log(error)
 
 	// const withContainer = <P extends object>(Component: ComponentType) => {
 	// 	return function WithContainer(props: P) {

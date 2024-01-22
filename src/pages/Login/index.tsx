@@ -8,7 +8,12 @@ export const Login = () => {
 	const { authorize } = useAuth0()
 
 	const handleSubmit = async () => {
-		await authorize({ scope: 'openid profile email ', ui_locales: 'pt-BR' })
+		console.log('auprize')
+		try {
+			await authorize({ scope: 'openid profile email ', ui_locales: 'pt-BR' })
+		} catch (error) {
+			console.log('erro', error)
+		}
 	}
 
 	return (
@@ -19,8 +24,8 @@ export const Login = () => {
 			alignItems='center'
 			justifyContent='flex-end'>
 			<FlexContainer height='15%'>
-				<Button color='primary' size='large' fontSize={13} onPress={handleSubmit} bold>
-					Você está realmente preparado?
+				<Button color='primary' size='medium' fontSize={13} onPress={handleSubmit} bold>
+					Entrar
 				</Button>
 			</FlexContainer>
 		</FlexContainer>

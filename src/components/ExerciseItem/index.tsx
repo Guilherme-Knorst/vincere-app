@@ -1451,7 +1451,7 @@ const ExerciseItem: FunctionComponent<ExerciseItemProps> = ({
 		})
 	}
 
-	console.log(exerciseSeries[0])
+	// console.log(exerciseSeries[0])
 
 	// const onChangeRepetitions = (seriesId: number, repetitions: number | string) => {
 	// 	onChangeExercise({
@@ -1507,7 +1507,7 @@ const ExerciseItem: FunctionComponent<ExerciseItemProps> = ({
 									Repetições
 								</Typography>
 							</FlexContainer>
-							<ScrollPicker
+							{/* <ScrollPicker
 								dataSource={repetitions}
 								selectedIndex={serie.repetitions}
 								renderItem={(data, index) => (
@@ -1520,7 +1520,7 @@ const ExerciseItem: FunctionComponent<ExerciseItemProps> = ({
 								itemHeight={30}
 								highlightColor='#fcb227'
 								// highlightBorderWidth={2}
-							/>
+							/> */}
 						</FlexContainer>
 						<FlexContainer>
 							<FlexContainer alignItems='center'>
@@ -1528,7 +1528,7 @@ const ExerciseItem: FunctionComponent<ExerciseItemProps> = ({
 									Carga
 								</Typography>
 							</FlexContainer>
-							<ScrollPicker
+							{/* <ScrollPicker
 								dataSource={weight}
 								selectedIndex={serie.weight}
 								renderItem={(data, index) => (
@@ -1541,7 +1541,7 @@ const ExerciseItem: FunctionComponent<ExerciseItemProps> = ({
 								itemHeight={30}
 								highlightColor='#fcb227'
 								// highlightBorderWidth={2}
-							/>
+							/> */}
 						</FlexContainer>
 					</>
 				))}
